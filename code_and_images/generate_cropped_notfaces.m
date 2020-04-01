@@ -33,7 +33,8 @@ while n_have < n_want
     
     %Increase loop
     n_have = n_have + 1;
-    
 end
+
+%Split all cropped images into training and validation sets
 
 
