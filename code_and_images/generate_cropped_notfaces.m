@@ -36,5 +36,15 @@ while n_have < n_want
 end
 
 %Split all cropped images into training and validation sets
+imageDir2 = 'cropped_training_images_faces';
+imageDir1 = 'cropped_training_images_notfaces';
+% disp(size(imageList));
+all_images = cat(1, dir(sprintf('%s/*.jpg',imageDir1)), dir(sprintf('%s/*.jpg',imageDir2)));
+disp(all_images);
+
+[sz, ~] = size(all_images);
+% idx = randperm(sz);
+training = all_images(1:round(sz*0.8),:);
+validation = all_images((round(sz*0.8)+1):end,:);
 
 

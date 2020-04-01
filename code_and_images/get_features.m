@@ -1,6 +1,6 @@
 close all
 clear
-run('../vlfeat-0.9.20/toolbox/vl_setup')
+run('../vlfeat-0.9.21/toolbox/vl_setup')
 
 pos_imageDir = 'cropped_training_images_faces';
 pos_imageList = dir(sprintf('%s/*.jpg',pos_imageDir));
@@ -19,11 +19,11 @@ for i=1:pos_nImages
     feat = vl_hog(im,cellSize);
     pos_feats(i,:) = feat(:);
     fprintf('got feat for pos image %d/%d\n',i,pos_nImages);
-%     imhog = vl_hog('render', feat);
-%     subplot(1,2,1);
-%     imshow(im);
-%     subplot(1,2,2);
-%     imshow(imhog)
+    imhog = vl_hog('render', feat);
+    subplot(1,2,1);
+    imshow(im);
+    subplot(1,2,2);
+    imshow(imhog)
 %     pause;
 end
 
