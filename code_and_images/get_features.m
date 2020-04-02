@@ -42,6 +42,5 @@ for i=1:neg_nImages
 %     pause;
 end
 
-for 
 
 save('pos_neg_feats.mat','pos_feats','neg_feats','pos_nImages','neg_nImages')
