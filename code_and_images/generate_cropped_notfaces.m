@@ -36,15 +36,29 @@ while n_have < n_want
 end
 
 %Split all cropped images into training and validation sets
+disp(size(imageList));
+
+% % % imageDir2 = 'cropped_training_images_faces';
+% % % imageDir1 = 'cropped_training_images_notfaces';
+% % % % disp(size(imageList));
+% % % all_images = cat(1, dir(sprintf('%s/*.jpg',imageDir1)), dir(sprintf('%s/*.jpg',imageDir2)));
+% % % disp(all_images);
+% % % 
+% % % [sz, ~] = size(all_images);
+% % % % idx = randperm(sz);
+% % % training = all_images(1:round(sz*0.8),:);
+% % % validation = all_images((round(sz*0.8)+1):end,:);
+% % % 
+
 imageDir2 = 'cropped_training_images_faces';
-imageDir1 = 'cropped_training_images_notfaces';
-% disp(size(imageList));
-all_images = cat(1, dir(sprintf('%s/*.jpg',imageDir1)), dir(sprintf('%s/*.jpg',imageDir2)));
-disp(all_images);
+all_cropped = cat(1, dir(sprintf('%s/*.jpg','cropped_training_images_notfaces')), dir(sprintf('%s/*.jpg',imageDir2)));
+disp(all_cropped);
 
-[sz, ~] = size(all_images);
-% idx = randperm(sz);
-training = all_images(1:round(sz*0.8),:);
-validation = all_images((round(sz*0.8)+1):end,:);
+[rows, ~] = size(all_cropped);
 
+training = all_cropped(1:round(rows*0.8),:);
+validation = all_cropped((round(rows*0.8) + 1):end,:);
+
+disp(size(training));
+disp(size(validation));
 
