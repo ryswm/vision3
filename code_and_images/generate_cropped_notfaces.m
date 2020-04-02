@@ -35,23 +35,36 @@ while n_have < n_want
     n_have = n_have + 1;
 end
 
-%Split all cropped images into training and validation sets
-disp(size(imageList));
-
+%Split all cropped images into training and validation set
 imageDir2 = 'cropped_training_images_faces';
 all_cropped = cat(1, dir(sprintf('%s/*.jpg','cropped_training_images_notfaces')), dir(sprintf('%s/*.jpg',imageDir2)));
-disp(all_cropped);
 
 [rows, ~] = size(all_cropped);
 perm = randperm(rows);
 training = all_cropped(perm(1:round(rows*0.8)),:);
 validation = all_cropped(perm((round(rows*0.8) + 1):end),:);
 
-training_labels = zeros(rows,1);
-neg_ind = find({training(:).folder} == append(pwd,'cropped_training_images_faces'));
 
+%Assign labels
+[trainrows, traincols] = size(training);
+training_labels = zeros(trainrows,1);
+for i = 1:trainrows
+   if strcmp(training(i).folder, append(pwd,'/','cropped_training_images_faces'))
+       training_labels(i) = 1;
+   elseif strcmp(training(i).folder, append(pwd,'/','cropped_training_images_notfaces'))
+       training_labels(i) = -1;
+   end
+end
 
+[validrows, validcols] = size(validation);
+valid_labels = zeros(validrows,1);
+for i = 1:validrows
+   if strcmp(validation(i).folder, append(pwd,'/','cropped_training_images_faces'))
+       valid_labels(i) = 1;
+   elseif strcmp(validation(i).folder, append(pwd,'/','cropped_training_images_notfaces'))
+       valid_labels(i) = -1;
+   end
+end
 
-disp(size(training));
-disp(size(validation));
+save('sets.mat','training','validation','training_labels','valid_labels');
 

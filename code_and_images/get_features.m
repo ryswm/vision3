@@ -2,6 +2,8 @@ close all
 clear
 run('../vlfeat-0.9.21/toolbox/vl_setup')
 
+load('sets.mat');
+
 pos_imageDir = 'cropped_training_images_faces';
 pos_imageList = dir(sprintf('%s/*.jpg',pos_imageDir));
 pos_nImages = length(pos_imageList);
