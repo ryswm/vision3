@@ -19,11 +19,11 @@ for i=1:pos_nImages
     feat = vl_hog(im,cellSize);
     pos_feats(i,:) = feat(:);
     fprintf('got feat for pos image %d/%d\n',i,pos_nImages);
-    imhog = vl_hog('render', feat);
-    subplot(1,2,1);
-    imshow(im);
-    subplot(1,2,2);
-    imshow(imhog)
+%     imhog = vl_hog('render', feat);
+%     subplot(1,2,1);
+%     imshow(im);
+%     subplot(1,2,2);
+%     imshow(imhog)
 %     pause;
 end
 
@@ -40,5 +40,7 @@ for i=1:neg_nImages
 %     imshow(imhog)
 %     pause;
 end
+
+for 
 
 save('pos_neg_feats.mat','pos_feats','neg_feats','pos_nImages','neg_nImages')
