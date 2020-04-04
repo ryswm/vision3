@@ -6,7 +6,7 @@ nImages = length(imageList);
 bboxes = zeros(0,4);
 confidences = zeros(0,1);
 image_names = cell(0,1);
-
+  
 cellSize = 6;
 dim = 36;
 for i=1:nImages
@@ -18,13 +18,27 @@ for i=1:nImages
     % generate a grid of features across the entire image. you may want to 
     % try generating features more densely (i.e., not in a grid)
     feats = vl_hog(im,cellSize);
+%     imhog = vl_hog('render', feats);
+%     subplot(1,2,1);
+%     imshow(im);
+%     subplot(1,2,2);
+%     imshow(imhog)
+%     pause;
     
     % concatenate the features into 6x6 bins, and classify them (as if they
     % represent 36x36-pixel faces)
-    [rows,cols,~] = size(feats);    
+    [rows,cols,~] = size(feats);
     confs = zeros(rows,cols);
+    
+    bin = zeros(6,6,31);
+    allBins = zeros(row*cols,1116);
+    ind = 1;
     for r=1:rows-5
         for c=1:cols-5
+            bin(:,:,:) = feats(r:r+5,c:c+5,:);
+            vect = reshape(bin,1,1116);
+            allBins(ind,:) = vect(1,:);
+            ind = ind + 1;
 
         % create feature vector for the current window and classify it using the SVM model, 
         % take dot product between feature vector and w and add b,

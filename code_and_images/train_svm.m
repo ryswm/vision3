@@ -19,3 +19,5 @@ fprintf('Classifier performance on validation data:\n')
 confidences = validation_feats*wv + bv;
 
 [tp_rate2, fp_rate2, tn_rate2, fn_rate2] =  report_accuracy(confidences, valid_labels);
+
+save('svm.mat','w','b', 'wv','bv');
