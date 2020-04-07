@@ -31,7 +31,7 @@ for i=1:nImages
     confs = zeros(rows,cols);
     
     bin = zeros(6,6,31);
-    allBins = zeros(row*cols,1116);
+    allBins = zeros(0,1116);
     ind = 1;
     for r=1:rows-5
         for c=1:cols-5
@@ -42,7 +42,7 @@ for i=1:nImages
 
         % create feature vector for the current window and classify it using the SVM model, 
         % take dot product between feature vector and w and add b,
-	% store the result in the matrix of confidence scores confs(r,c)
+        % store the result in the matrix of confidence scores confs(r,c)
 
         end
     end
