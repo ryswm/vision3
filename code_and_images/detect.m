@@ -32,7 +32,7 @@ for i=1:nImages
     confs = zeros(rows,cols);
     
     bin = zeros(6,6,31);
-    allBins = zeros(rows*cols,1116);
+    allBins = zeros(0,1116);
     ind = 1;
     for r=1:rows-5
         for c=1:cols-5
