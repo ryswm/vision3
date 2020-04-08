@@ -10,7 +10,7 @@ image_names = cell(0,1);
   
 cellSize = 6;
 dim = 36;
-for i=1:nImages
+for i=1:1
     % load and show the image
     im = im2single(imread(sprintf('%s/%s',imageDir,imageList(i).name)));
     imshow(im);
@@ -41,10 +41,10 @@ for i=1:nImages
             allBins(ind,:) = vect(1,:);
         % create feature vector for the current window and classify it using the SVM model,
         % take dot product between feature vector and w and add b,
-	% store the result in the matrix of confidence scores confs(r,c)
-        feat_vect = allBins(ind,:);
-        confs(r,c) = feat_vect*w+b;
-        fprintf("score for bin %d = %d\n", ind,confs(r,c));
+        % store the result in the matrix of confidence scores confs(r,c)
+            feat_vect = allBins(ind,:);
+            confs(r,c) = feat_vect*w+b;
+            fprintf("score for bin %d = %d\n", ind,confs(r,c));
             ind = ind + 1;
         end
     end
@@ -53,7 +53,7 @@ for i=1:nImages
        
     % get the most confident predictions 
     [~,inds] = sort(confs(:),'descend');
-    inds = inds(1:20); % (use a bigger number for better recall)
+    inds = inds(1:20); % (use a bigger number for better recall)  
     for n=1:numel(inds)        
         [row,col] = ind2sub([size(feats,1) size(feats,2)],inds(n));
         
@@ -64,24 +64,53 @@ for i=1:nImages
         conf = confs(row,col);
         image_name = {imageList(i).name};
         
-        % plot
-        plot_rectangle = [bbox(1), bbox(2); ...
-            bbox(1), bbox(4); ...
-            bbox(3), bbox(4); ...
-            bbox(3), bbox(2); ...
-            bbox(1), bbox(2)];
-        plot(plot_rectangle(:,1), plot_rectangle(:,2), 'g-');
-        
+%         % plot
+%         plot_rectangle = [bbox(1), bbox(2); ...
+%             bbox(1), bbox(4); ...
+%             bbox(3), bbox(4); ...
+%             bbox(3), bbox(2); ...
+%             bbox(1), bbox(2)];
+%         plot(plot_rectangle(:,1), plot_rectangle(:,2), 'g-');
+%         
         % save         
         bboxes = [bboxes; bbox];
         confidences = [confidences; conf];
         image_names = [image_names; image_name];
     end
-    pause;
-    fprintf('got preds for image %d/%d\n', i,nImages);
+%     pause;
+%     fprintf('got preds for image %d/%d\n', i,nImages);
+    
+    %Non Max suppression
+    bboxes2 = zeros(0,4);
+    for i = 1:size(bboxes(:,1))
+        bb1 = bboxes(i,:);
+        for j = 2:size(bboxes(:,1))
+            bb2 = bboxes(j,:);
+            bi=[max(bb1(1),bb2(1)) ; max(bb1(2),bb2(2)) ; min(bb1(3),bb2(3)) ; min(bb1(4),bb2(4))];
+            iw = bb2(3) - bb1(1) + 1;
+            ih = bb2(4) - bb1(2) + 1;
+            if iw > 0 && ih > 0
+                if inds(i) > inds(j)
+                    bboxes2 = [bboxes2;bb1];
+                elseif inds(j) > inds(i)
+                    bboxes2 = [bboxes2;bb2];
+                end
+            end
+        end
+    end
+    
+    %Print kept bboxes
+    for n = 1:size(bboxes2(:,1))
+        plot_rectangle = [bboxes2(n,1), bboxes2(n,2); ...
+        bboxes2(n,1), bboxes2(n,4); ...
+        bboxes2(n,3), bboxes2(n,4); ...
+        bboxes2(n,3), bboxes2(n,2); ...
+        bboxes2(n,1), bboxes2(n,2)];
+        plot(plot_rectangle(:,1), plot_rectangle(:,2), 'g-');
+    end
 end
-
+pause;
 % evaluate
 label_path = 'test_images_gt.txt';
 [gt_ids, gt_bboxes, gt_isclaimed, tp, fp, duplicate_detections] = ...
-    evaluate_detections(bboxes, confidences, image_names, label_path);
+    evaluate_detections_on_test(bboxes, confidences, image_names, label_path);
