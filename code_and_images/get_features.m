@@ -5,8 +5,8 @@ run('../vlfeat-0.9.21/toolbox/vl_setup')
 load('sets.mat');
 
 
-cellSize = 3;
-featSize = 31*144;%cellSize^2;
+cellSize = 6;
+featSize = 31*cellSize^2;
 
 trainingL = length(training);
 validationL = length(validation);

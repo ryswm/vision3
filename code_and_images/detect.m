@@ -1,4 +1,5 @@
 run('../vlfeat-0.9.21/toolbox/vl_setup')
+load('svm.mat');
 imageDir = 'test_images';
 imageList = dir(sprintf('%s/*.jpg',imageDir));
 nImages = length(imageList);
@@ -31,21 +32,24 @@ for i=1:nImages
     confs = zeros(rows,cols);
     
     bin = zeros(6,6,31);
-    allBins = zeros(0,1116);
+    allBins = zeros(rows*cols,1116);
     ind = 1;
     for r=1:rows-5
         for c=1:cols-5
             bin(:,:,:) = feats(r:r+5,c:c+5,:);
             vect = reshape(bin,1,1116);
             allBins(ind,:) = vect(1,:);
-            ind = ind + 1;
-
-        % create feature vector for the current window and classify it using the SVM model, 
+        % create feature vector for the current window and classify it using the SVM model,
         % take dot product between feature vector and w and add b,
-        % store the result in the matrix of confidence scores confs(r,c)
-
+	% store the result in the matrix of confidence scores confs(r,c)
+        feat_vect = allBins(ind,:);
+        confs(r,c) = feat_vect*w+b;
+        fprintf("score for bin %d = %d\n", ind,confs(r,c));
+            ind = ind + 1;
         end
     end
+    
+%     evaluate_detections_on_test(bboxes, confidences, image_ids, label_path)
        
     % get the most confident predictions 
     [~,inds] = sort(confs(:),'descend');

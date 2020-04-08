@@ -12,7 +12,6 @@ confidences = training_feats*w + b;
 
 [tp_rate, fp_rate, tn_rate, fn_rate] =  report_accuracy(confidences, training_labels);
 
-
 [wv,bv] = vl_svmtrain(validation_feats',valid_labels,lambda);
 
 fprintf('Classifier performance on validation data:\n')
@@ -20,4 +19,4 @@ confidences = validation_feats*wv + bv;
 
 [tp_rate2, fp_rate2, tn_rate2, fn_rate2] =  report_accuracy(confidences, valid_labels);
 
-save('svm.mat','w','b', 'wv','bv');
+save('svm.mat','w','b', 'wv','bv', 'b');

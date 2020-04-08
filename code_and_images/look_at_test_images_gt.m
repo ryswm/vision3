@@ -1,4 +1,4 @@
-imageDir = 'test_images';
+ imageDir = 'test_images';
 imageList = dir( fullfile( imageDir, '*.jpg'));
 
 fid = fopen('test_images_gt.txt');

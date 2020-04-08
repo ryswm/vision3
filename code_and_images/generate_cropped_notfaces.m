@@ -49,9 +49,10 @@ validation = all_cropped(perm((round(rows*0.8) + 1):end),:);
 [trainrows, traincols] = size(training);
 training_labels = zeros(trainrows,1);
 for i = 1:trainrows
-   if strcmp(training(i).folder, append(pwd,'/','cropped_training_images_faces'))
+%     trainFold = regexptraining(i)
+   if (strcmp(training(i).folder, append(pwd,'/','cropped_training_images_faces')) || strcmp(training(i).folder, append(pwd,'\','cropped_training_images_faces')))
        training_labels(i) = 1;
-   elseif strcmp(training(i).folder, append(pwd,'/','cropped_training_images_notfaces'))
+   elseif (strcmp(training(i).folder, append(pwd,'/','cropped_training_images_notfaces')) || strcmp(training(i).folder, append(pwd,'\','cropped_training_images_notfaces')))
        training_labels(i) = -1;
    end
 end
@@ -59,9 +60,9 @@ end
 [validrows, validcols] = size(validation);
 valid_labels = zeros(validrows,1);
 for i = 1:validrows
-   if strcmp(validation(i).folder, append(pwd,'/','cropped_training_images_faces'))
+   if (strcmp(validation(i).folder, append(pwd,'/','cropped_training_images_faces')) || strcmp(validation(i).folder, append(pwd,'\','cropped_training_images_faces')));
        valid_labels(i) = 1;
-   elseif strcmp(validation(i).folder, append(pwd,'/','cropped_training_images_notfaces'))
+   elseif (strcmp(validation(i).folder, append(pwd,'/','cropped_training_images_notfaces')) || strcmp(validation(i).folder, append(pwd,'\','cropped_training_images_notfaces')))
        valid_labels(i) = -1;
    end
 end
