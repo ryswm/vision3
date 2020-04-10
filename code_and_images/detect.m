@@ -4,13 +4,14 @@ imageDir = 'test_images';
 imageList = dir(sprintf('%s/*.jpg',imageDir));
 nImages = length(imageList);
 
-bboxes = zeros(0,4);
-confidences = zeros(0,1);
-image_names = cell(0,1);
   
 cellSize = 6;
 dim = 36;
-for i=1:1
+for i=1:nImages
+    bboxes = zeros(0,4);
+    confidences = zeros(0,1);
+    image_names = cell(0,1);
+
     % load and show the image
     im = im2single(imread(sprintf('%s/%s',imageDir,imageList(i).name)));
     imshow(im);
@@ -39,17 +40,19 @@ for i=1:1
             bin(:,:,:) = feats(r:r+5,c:c+5,:);
             vect = reshape(bin,1,1116);
             allBins(ind,:) = vect(1,:);
-        % create feature vector for the current window and classify it using the SVM model,
-        % take dot product between feature vector and w and add b,
-        % store the result in the matrix of confidence scores confs(r,c)
+            
+            % create feature vector for the current window and classify it using the SVM model,
+            % take dot product between feature vector and w and add b,
+            % store the result in the matrix of confidence scores confs(r,c)
+            
             feat_vect = allBins(ind,:);
             confs(r,c) = feat_vect*w+b;
-            fprintf("score for bin %d = %d\n", ind,confs(r,c));
+            %fprintf("score for bin %d = %d\n", ind,confs(r,c));
             ind = ind + 1;
         end
     end
     
-%     evaluate_detections_on_test(bboxes, confidences, image_ids, label_path)
+%    evaluate_detections_on_test(bboxes, confidences, image_ids, label_path)
        
     % get the most confident predictions 
     [~,inds] = sort(confs(:),'descend');
@@ -114,8 +117,9 @@ for i=1:1
         bboxes2(n,1), bboxes2(n,2)];
         plot(plot_rectangle(:,1), plot_rectangle(:,2), 'g-');
     end
+    pause;
 end
-pause;
+
 
 % % evaluate
 % label_path = 'test_images_gt.txt';
