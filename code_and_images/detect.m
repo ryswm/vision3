@@ -95,14 +95,14 @@ for i=1:1
             iw = bi(3) - bi(1) + 1;
             ih = bi(4) - bi(2) + 1;
             if iw>0 && ih>0 %Check for intersection
-                bboxes(j,:) = [];
-                j = j - 1;
-                lim = size(bboxes,1) + 1;
+                bboxes(j,:) = [];   %Remove intersecting bbox with lower confidence
+                j = j - 1;  %Reset j for updated bboxes
+                lim = size(bboxes,1) + 1;   %Reset lim for updated bboxes
             end
-            j = j + 1;
+            j = j + 1;  %Increase second loop iterator
         end
-        lim = size(bboxes,1) + 1;
-        i2 = i2 + 1;
+        lim = size(bboxes,1) + 1;   %Reset lim for updated bboxes
+        i2 = i2 + 1;    %Increase first loop iterator
     end
     
     %Print kept bboxes
