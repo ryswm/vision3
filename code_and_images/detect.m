@@ -5,7 +5,7 @@ imageList = dir(sprintf('%s/*.jpg',imageDir));
 nImages = length(imageList);
 
   
-cellSize = 6;
+cellSize = 3;%6;
 dim = 36;
 for i=1:nImages
     bboxes = zeros(0,4);
@@ -26,17 +26,16 @@ for i=1:nImages
     [rows,cols,~] = size(feats);
     confs = zeros(rows,cols);
     
-    bin = zeros(6,6,31);
-    allBins = zeros(0,1116);
-    for r=1:rows-5
-        for c=1:cols-5
-            bin(:,:,:) = feats(r:r+5,c:c+5,:);
+    bin = zeros(12,12,31);
+    for r=1:rows-11
+        for c=1:cols-11
+            bin(:,:,:) = feats(r:r+11,c:c+11,:);
             
             % create feature vector for the current window and classify it using the SVM model,
             % take dot product between feature vector and w and add b,
             % store the result in the matrix of confidence scores confs(r,c)
             
-            vect = reshape(bin,1,1116);
+            vect = reshape(bin,1,4464);
             confs(r,c) = vect*w+b;
         end
     end
@@ -49,8 +48,8 @@ for i=1:nImages
         
         bbox = [ col*cellSize ...
                  row*cellSize ...
-                (col+cellSize-1)*cellSize ...
-                (row+cellSize-1)*cellSize];
+                (col+12-1)*cellSize ...
+                (row+12-1)*cellSize];
         conf = confs(row,col);
         image_name = {imageList(i).name};
         
@@ -60,7 +59,7 @@ for i=1:nImages
             bbox(3), bbox(4); ...
             bbox(3), bbox(2); ...
             bbox(1), bbox(2)];
-        plot(plot_rectangle(:,1), plot_rectangle(:,2), 'g-');
+        plot(plot_rectangle(:,1), plot_rectangle(:,2), 'r-');
         
         % save         
         bboxes = [bboxes; bbox];
@@ -100,7 +99,7 @@ for i=1:nImages
         bboxes2(n,3), bboxes2(n,4); ...
         bboxes2(n,3), bboxes2(n,2); ...
         bboxes2(n,1), bboxes2(n,2)];
-        plot(plot_rectangle(:,1), plot_rectangle(:,2), 'r-');
+        plot(plot_rectangle(:,1), plot_rectangle(:,2), 'g-');
     end
     pause;
     fprintf('got preds for image %d/%d\n', i,nImages);
