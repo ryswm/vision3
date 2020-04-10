@@ -81,22 +81,28 @@ for i=1:1
 %     fprintf('got preds for image %d/%d\n', i,nImages);
     
     %Non Max suppression
-    bboxes2 = zeros(0,4);
-    for i = 1:size(bboxes(:,1))
-        bb1 = bboxes(i,:);
-        for j = 2:size(bboxes(:,1))
+    bboxes2 = zeros(0,4);   %Best bboxes
+    lim = size(bboxes,1) + 1;   %iterate over all bboxes
+    i2 = 1;
+    while i2 < lim
+        bb1 = bboxes(i2,:); 
+        bboxes2 = [bboxes2; bb1];   %add bbox to bboxes2
+        
+        j = i2 + 1; %Second loop starting point
+        while j < lim
             bb2 = bboxes(j,:);
             bi=[max(bb1(1),bb2(1)) ; max(bb1(2),bb2(2)) ; min(bb1(3),bb2(3)) ; min(bb1(4),bb2(4))];
-            iw = bb2(3) - bb1(1) + 1;
-            ih = bb2(4) - bb1(2) + 1;
-            if iw > 0 && ih > 0
-                if inds(i) > inds(j)
-                    bboxes2 = [bboxes2;bb1];
-                elseif inds(j) > inds(i)
-                    bboxes2 = [bboxes2;bb2];
-                end
+            iw = bi(3) - bi(1) + 1;
+            ih = bi(4) - bi(2) + 1;
+            if iw>0 && ih>0 %Check for intersection
+                bboxes(j,:) = [];
+                j = j - 1;
+                lim = size(bboxes,1) + 1;
             end
+            j = j + 1;
         end
+        lim = size(bboxes,1) + 1;
+        i2 = i2 + 1;
     end
     
     %Print kept bboxes
@@ -110,7 +116,8 @@ for i=1:1
     end
 end
 pause;
-% evaluate
-label_path = 'test_images_gt.txt';
-[gt_ids, gt_bboxes, gt_isclaimed, tp, fp, duplicate_detections] = ...
-    evaluate_detections_on_test(bboxes, confidences, image_names, label_path);
+
+% % evaluate
+% label_path = 'test_images_gt.txt';
+% [gt_ids, gt_bboxes, gt_isclaimed, tp, fp, duplicate_detections] = ...
+%     evaluate_detections_on_test(bboxes, confidences, image_names, label_path);
