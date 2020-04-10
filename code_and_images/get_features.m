@@ -6,7 +6,7 @@ load('sets.mat');
 
 
 cellSize = 3;%6;
-featSize = 31*144;%cellSize^2;
+featSize = 67*144;%cellSize^2;
 
 trainingL = length(training);
 validationL = length(validation);
@@ -14,7 +14,7 @@ validationL = length(validation);
 training_feats = zeros(trainingL,featSize);
 for i=1:trainingL
     im = im2single(imread(sprintf('%s/%s',training(i).folder,training(i).name)));
-    feat = vl_hog(im,cellSize);
+    feat = vl_hog(im,cellSize,'numOrientations',21);
     training_feats(i,:) = feat(:);
     fprintf('got feat for training image %d/%d\n',i,trainingL);
 %      imhog = vl_hog('render', feat);
@@ -28,7 +28,7 @@ end
 validation_feats = zeros(validationL,featSize);
 for i=1:validationL
     im = im2single(imread(sprintf('%s/%s',validation(i).folder,validation(i).name)));
-    feat = vl_hog(im,cellSize);
+    feat = vl_hog(im,cellSize,'numOrientations',21);
     validation_feats(i,:) = feat(:);
     fprintf('got feat for validation image %d/%d\n',i,validationL);
 %     imhog = vl_hog('render', feat);

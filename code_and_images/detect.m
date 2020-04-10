@@ -19,14 +19,14 @@ for i=1:nImages
     
     % generate a grid of features across the entire image. you may want to 
     % try generating features more densely (i.e., not in a grid)
-    feats = vl_hog(im,cellSize);
+    feats = vl_hog(im,cellSize,'numOrientations',21);
     
     % concatenate the features into 6x6 bins, and classify them (as if they
     % represent 36x36-pixel faces)
     [rows,cols,~] = size(feats);
     confs = zeros(rows,cols);
     
-    bin = zeros(12,12,31);
+    bin = zeros(12,12,67);
     for r=1:rows-11
         for c=1:cols-11
             bin(:,:,:) = feats(r:r+11,c:c+11,:);
@@ -35,7 +35,7 @@ for i=1:nImages
             % take dot product between feature vector and w and add b,
             % store the result in the matrix of confidence scores confs(r,c)
             
-            vect = reshape(bin,1,4464);
+            vect = reshape(bin,1,9648);
             confs(r,c) = vect*w+b;
         end
     end
