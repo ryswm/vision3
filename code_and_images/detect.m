@@ -7,7 +7,7 @@ nImages = length(imageList);
   
 cellSize = 3;%6;
 dim = 36;
-for i=1:nImages
+for i=1:1%nImages
     bboxes = zeros(0,4);
     confidences = zeros(0,1);
     image_names = cell(0,1);
@@ -83,6 +83,8 @@ for i=1:nImages
             ih = bi(4) - bi(2) + 1;
             if iw>0 && ih>0 %Check for intersection
                 bboxes(j,:) = [];   %Remove intersecting bbox with lower confidence
+                confidences(j,:) = [];
+                image_names(j,:) = [];
                 j = j - 1;  %Reset j for updated bboxes
                 lim = size(bboxes,1) + 1;   %Reset lim for updated bboxes
             end
@@ -107,6 +109,6 @@ end
 
 
 % % evaluate
-% label_path = 'test_images_gt.txt';
-% [gt_ids, gt_bboxes, gt_isclaimed, tp, fp, duplicate_detections] = ...
-%     evaluate_detections_on_test(bboxes, confidences, image_names, label_path);
+label_path = 'test_images_gt.txt';
+[gt_ids, gt_bboxes, gt_isclaimed, tp, fp, duplicate_detections] = ...
+    evaluate_detections_on_test(bboxes, confidences, image_names, label_path);
