@@ -20,12 +20,6 @@ for i=1:nImages
     % generate a grid of features across the entire image. you may want to 
     % try generating features more densely (i.e., not in a grid)
     feats = vl_hog(im,cellSize);
-%     imhog = vl_hog('render', feats);
-%     subplot(1,2,1);
-%     imshow(im);
-%     subplot(1,2,2);
-%     imshow(imhog)
-%     pause;
     
     % concatenate the features into 6x6 bins, and classify them (as if they
     % represent 36x36-pixel faces)
@@ -34,25 +28,18 @@ for i=1:nImages
     
     bin = zeros(6,6,31);
     allBins = zeros(0,1116);
-    ind = 1;
     for r=1:rows-5
         for c=1:cols-5
             bin(:,:,:) = feats(r:r+5,c:c+5,:);
-            vect = reshape(bin,1,1116);
-            allBins(ind,:) = vect(1,:);
             
             % create feature vector for the current window and classify it using the SVM model,
             % take dot product between feature vector and w and add b,
             % store the result in the matrix of confidence scores confs(r,c)
             
-            feat_vect = allBins(ind,:);
-            confs(r,c) = feat_vect*w+b;
-            %fprintf("score for bin %d = %d\n", ind,confs(r,c));
-            ind = ind + 1;
+            vect = reshape(bin,1,1116);
+            confs(r,c) = vect*w+b;
         end
     end
-    
-%    evaluate_detections_on_test(bboxes, confidences, image_ids, label_path)
        
     % get the most confident predictions 
     [~,inds] = sort(confs(:),'descend');
@@ -67,21 +54,19 @@ for i=1:nImages
         conf = confs(row,col);
         image_name = {imageList(i).name};
         
-%         % plot
-%         plot_rectangle = [bbox(1), bbox(2); ...
-%             bbox(1), bbox(4); ...
-%             bbox(3), bbox(4); ...
-%             bbox(3), bbox(2); ...
-%             bbox(1), bbox(2)];
-%         plot(plot_rectangle(:,1), plot_rectangle(:,2), 'g-');
-%         
+        % plot
+        plot_rectangle = [bbox(1), bbox(2); ...
+            bbox(1), bbox(4); ...
+            bbox(3), bbox(4); ...
+            bbox(3), bbox(2); ...
+            bbox(1), bbox(2)];
+        plot(plot_rectangle(:,1), plot_rectangle(:,2), 'g-');
+        
         % save         
         bboxes = [bboxes; bbox];
         confidences = [confidences; conf];
         image_names = [image_names; image_name];
     end
-%     pause;
-%     fprintf('got preds for image %d/%d\n', i,nImages);
     
     %Non Max suppression
     bboxes2 = zeros(0,4);   %Best bboxes
@@ -115,9 +100,10 @@ for i=1:nImages
         bboxes2(n,3), bboxes2(n,4); ...
         bboxes2(n,3), bboxes2(n,2); ...
         bboxes2(n,1), bboxes2(n,2)];
-        plot(plot_rectangle(:,1), plot_rectangle(:,2), 'g-');
+        plot(plot_rectangle(:,1), plot_rectangle(:,2), 'r-');
     end
     pause;
+    fprintf('got preds for image %d/%d\n', i,nImages);
 end
 
 
