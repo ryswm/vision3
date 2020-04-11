@@ -1,3 +1,6 @@
+%Ryan Woodworth 500752821
+%Akash Chhabria 500763706
+
 %Class.jpg
 classim = im2single(imread('class.jpg'));
 imshow(classim);

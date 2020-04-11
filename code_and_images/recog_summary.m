@@ -1,3 +1,5 @@
+fprintf("\nDone by: Ryan Woodworth 500752821 & Akash Chhabria 500763706\n");
+
 fprintf("Part 1 Our Approach:\n");
 fprintf("In order to populate the nonfaces image set, a random image was chosen, as well as a random row and column (With the constraints of being 36 pixels from the right hand border of the image)\n");
 fprintf("Then, using the random row and column as the top left corner, a 36x36 sample was taken from the random image\n");

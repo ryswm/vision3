@@ -1,3 +1,6 @@
+%Ryan Woodworth 500752821
+%Akash Chhabria 500763706
+
 run('../vlfeat-0.9.21/toolbox/vl_setup')
 load('feats_labels.mat')
 

@@ -1,3 +1,6 @@
+%Ryan Woodworth 500752821
+%Akash Chhabria 500763706
+
 close all
 clear
 run('../vlfeat-0.9.21/toolbox/vl_setup')

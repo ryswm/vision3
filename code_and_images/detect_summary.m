@@ -1,3 +1,5 @@
+fprintf("\n\nDone by: Ryan Woodworth 500752821 & Akash Chhabria 500763706\n\n");
+
 fprintf("Part 2: Our Approach\n");
 fprintf("For Part 2 we used a very similar approach to part 1. In order to use our trained model, a 3x3 cell and 21 orientations per feature were used.\n");
 fprintf("In order for our window to cover 36x36 pixels 12x12 bins were taken for each sliding window position (due to our smaller feature cell).\n");
