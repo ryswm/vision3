@@ -4,13 +4,16 @@ imageDir = 'test_images';
 imageList = dir(sprintf('%s/*.jpg',imageDir));
 nImages = length(imageList);
 
+bboxes = zeros(0,4);
+confidences = zeros(0,1);
+image_names = cell(0,1);
   
-cellSize = 3;%6;
+cellSize = 3;;
 dim = 36;
-for i=1:1%nImages
-    bboxes = zeros(0,4);
-    confidences = zeros(0,1);
-    image_names = cell(0,1);
+for i=1:nImages
+%     bboxes = zeros(0,4);
+%     confidences = zeros(0,1);
+%     image_names = cell(0,1);
 
     % load and show the image
     im = im2single(imread(sprintf('%s/%s',imageDir,imageList(i).name)));
@@ -53,13 +56,13 @@ for i=1:1%nImages
         conf = confs(row,col);
         image_name = {imageList(i).name};
         
-        % plot
-        plot_rectangle = [bbox(1), bbox(2); ...
-            bbox(1), bbox(4); ...
-            bbox(3), bbox(4); ...
-            bbox(3), bbox(2); ...
-            bbox(1), bbox(2)];
-        plot(plot_rectangle(:,1), plot_rectangle(:,2), 'r-');
+%         % plot
+%         plot_rectangle = [bbox(1), bbox(2); ...
+%             bbox(1), bbox(4); ...
+%             bbox(3), bbox(4); ...
+%             bbox(3), bbox(2); ...
+%             bbox(1), bbox(2)];
+%         plot(plot_rectangle(:,1), plot_rectangle(:,2), 'r-');
         
         % save         
         bboxes = [bboxes; bbox];
@@ -94,16 +97,16 @@ for i=1:1%nImages
         i2 = i2 + 1;    %Increase first loop iterator
     end
     
-    %Print kept bboxes
-    for n = 1:size(bboxes2(:,1))
-        plot_rectangle = [bboxes2(n,1), bboxes2(n,2); ...
-        bboxes2(n,1), bboxes2(n,4); ...
-        bboxes2(n,3), bboxes2(n,4); ...
-        bboxes2(n,3), bboxes2(n,2); ...
-        bboxes2(n,1), bboxes2(n,2)];
-        plot(plot_rectangle(:,1), plot_rectangle(:,2), 'g-');
-    end
-    pause;
+%     %Print kept bboxes
+%     for n = 1:size(bboxes2(:,1))
+%         plot_rectangle = [bboxes2(n,1), bboxes2(n,2); ...
+%         bboxes2(n,1), bboxes2(n,4); ...
+%         bboxes2(n,3), bboxes2(n,4); ...
+%         bboxes2(n,3), bboxes2(n,2); ...
+%         bboxes2(n,1), bboxes2(n,2)];
+%         plot(plot_rectangle(:,1), plot_rectangle(:,2), 'g-');
+%     end
+%     pause;
     fprintf('got preds for image %d/%d\n', i,nImages);
 end
 
