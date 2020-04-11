@@ -8,4 +8,10 @@ fprintf("Once the folder was populated labels were applied to every image (face 
 fprintf("Features were then extracted from each image using the vl_hog function. To improve performance a 3x3 cellsize, as well as 27 orientations per feature were used which allowed for a more dense feature set\n");
 fprintf("An SVM model was then trained on the training set, and then the validation set, both with a lambda value of 0.1\n\n");
 
-fprintf("Results:\n");
+fprintf("Best Results on Validation Set:\n");
+fprintf("Accuracy: %d\n", 1.000);
+fprintf("True Positive: %d\n",0.492);
+fprintf("True Negative: %d\n",0.000);
+fprintf("False Positive: %d\n",0.508);
+fprintf("False Negative: %d\n",0.000);
+
