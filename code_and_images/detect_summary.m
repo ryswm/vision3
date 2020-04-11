@@ -11,10 +11,12 @@ fprintf("We accounted for overlapping predictions by running the 20 taken window
 
 fprintf("\n");
 
-fprintf("The result for the average precision is: %d.\n\n", 0.068);
+fprintf("The result for the average precision is: %d.\n\n", 0.296);
 
 avg_precs = imread('average_precision.png');
-imshow(avg_precs);
+figure(1), imshow(avg_precs);
 
 fprintf("Our class.jpg predictions did not do as well as we would have hoped, but it id entirely due to our lack of predictions at different scales\n");
 fprintf("However, we did recieve similar accuracy to our testing results, with only 3 faces identified.");
+classimg = imread('class_results.png');
+figure(2), imshow(classimg);

@@ -15,3 +15,5 @@ fprintf("True Negative: %d\n",0.000);
 fprintf("False Positive: %d\n",0.508);
 fprintf("False Negative: %d\n",0.000);
 
+recog = imread('recog_results.png');
+imshow(recog);
