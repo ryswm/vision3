@@ -9,11 +9,11 @@ fprintf("Features were then extracted from each image using the vl_hog function.
 fprintf("An SVM model was then trained on the training set, and then the validation set, both with a lambda value of 0.1\n\n");
 
 fprintf("Best Results on Validation Set:\n");
-fprintf("Accuracy: %d\n", 1.000);
-fprintf("True Positive: %d\n",0.492);
-fprintf("True Negative: %d\n",0.000);
-fprintf("False Positive: %d\n",0.508);
-fprintf("False Negative: %d\n",0.000);
+fprintf("Accuracy: %f\n", 1.000);
+fprintf("True Positive: %f\n",0.492);
+fprintf("True Negative: %f\n",0.000);
+fprintf("False Positive: %f\n",0.508);
+fprintf("False Negative: %f\n",0.000);
 
 recog = imread('recog_results.png');
 imshow(recog);

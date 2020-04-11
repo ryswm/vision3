@@ -11,7 +11,7 @@ fprintf("We accounted for overlapping predictions by running the 20 taken window
 
 fprintf("\n");
 
-fprintf("The result for the average precision is: %d.\n\n", 0.296);
+fprintf("The result for the average precision is: %f.\n\n", 0.296);
 
 avg_precs = imread('average_precision.png');
 figure(1), imshow(avg_precs);
