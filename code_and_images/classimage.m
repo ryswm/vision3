@@ -3,10 +3,10 @@ classim = im2single(imread('class.jpg'));
 imshow(classim);
 hold on;
 
-feats = vl_hog(classim,cellSize,'numOrientations',21);
+feats = vl_hog(classim,3,'numOrientations',21);
 
-class_bboxes = zeros(0,4);
-class_confidences = zeros(0,1);
+bboxes = zeros(0,4);
+confidences = zeros(0,1);
 
 [rows,cols,~] = size(feats);
 confs = zeros(rows,cols);
@@ -41,33 +41,33 @@ confs = zeros(rows,cols);
      plot(plot_rectangle(:,1), plot_rectangle(:,2), 'r-');
         
      % save         
-     class_bboxes = [class_bboxes; bbox];
-     class_confidences = [class_confidences; conf];
+     bboxes = [bboxes; bbox];
+     confidences = [confidences; conf];
  end
  
  %Non Max suppression
  bboxes2 = zeros(0,4);   %Best bboxes
- lim = size(class_bboxes,1) + 1;   %iterate over all bboxes
+ lim = size(bboxes,1) + 1;   %iterate over all bboxes
  i2 = 1;
  while i2 < lim
-     bb1 = class_bboxes(i2,:); 
+     bb1 = bboxes(i2,:); 
      bboxes2 = [bboxes2; bb1];   %add bbox to bboxes2
        
      j = i2 + 1; %Second loop starting point
      while j < lim
-         bb2 = class_bboxes(j,:);
+         bb2 = bboxes(j,:);
          bi=[max(bb1(1),bb2(1)) ; max(bb1(2),bb2(2)) ; min(bb1(3),bb2(3)) ; min(bb1(4),bb2(4))];
          iw = bi(3) - bi(1) + 1;
          ih = bi(4) - bi(2) + 1;
          if iw>0 && ih>0 %Check for intersection
-             class_bboxes(j,:) = [];   %Remove intersecting bbox with lower confidence
-             class_confidences(j,:) = [];
+             bboxes(j,:) = [];   %Remove intersecting bbox with lower confidence
+             confidences(j,:) = [];
              j = j - 1;  %Reset j for updated bboxes
-             lim = size(class_bboxes,1) + 1;   %Reset lim for updated bboxes
+             lim = size(bboxes,1) + 1;   %Reset lim for updated bboxes
          end
          j = j + 1;  %Increase second loop iterator
      end
-     lim = size(class_bboxes,1) + 1;   %Reset lim for updated bboxes
+     lim = size(bboxes,1) + 1;   %Reset lim for updated bboxes
      i2 = i2 + 1;    %Increase first loop iterator
  end
     

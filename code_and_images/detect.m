@@ -118,8 +118,11 @@ label_path = 'test_images_gt.txt';
 
 
 %Class.jpg
-class = im2single(imread('class.jpg'));
-feats = vl_hog(im,cellSize,'numOrientations',21);
+classim = im2single(imread('class.jpg'));
+imshow(classim);
+hold on;
+
+feats = vl_hog(classim,cellSize,'numOrientations',21);
 
 class_bboxes = zeros(0,4);
 class_confidences = zeros(0,1);
@@ -187,13 +190,13 @@ confs = zeros(rows,cols);
      i2 = i2 + 1;    %Increase first loop iterator
  end
     
-    %Print kept bboxes
-    for n = 1:size(bboxes2(:,1))
-        plot_rectangle = [bboxes2(n,1), bboxes2(n,2); ...
-        bboxes2(n,1), bboxes2(n,4); ...
-        bboxes2(n,3), bboxes2(n,4); ...
-        bboxes2(n,3), bboxes2(n,2); ...
-        bboxes2(n,1), bboxes2(n,2)];
-        plot(plot_rectangle(:,1), plot_rectangle(:,2), 'g-');
-    end
-    pause;
+ %Print kept bboxes
+ for n = 1:size(bboxes2(:,1))
+     plot_rectangle = [bboxes2(n,1), bboxes2(n,2); ...
+     bboxes2(n,1), bboxes2(n,4); ...
+     bboxes2(n,3), bboxes2(n,4); ...
+     bboxes2(n,3), bboxes2(n,2); ...
+     bboxes2(n,1), bboxes2(n,2)];
+     plot(plot_rectangle(:,1), plot_rectangle(:,2), 'g-');
+ end
+ pause;
